@@ -1,11 +1,12 @@
 Rails.application.routes.draw do
   devise_for :users
-  get 'pages/home'
+  # get 'pages/home'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
+  get '/dashboard' => 'dashboards#show'
   root 'pages#home'
 
   # Example of regular route:
