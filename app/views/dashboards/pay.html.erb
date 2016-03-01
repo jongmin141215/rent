@@ -1,0 +1,49 @@
+  Please read below. If you agree and would like to proceed the payment process, please check the box below.
+<form>
+  <input id='authorization' type='checkbox'/>
+  I authorize Rent to electronically debit my account and, if necessary, electronically credit my account to correct erroneous debits.
+</form>
+<div class='row'>
+  <div class='col-md-6'>
+    <div class='method' id='linkButton'>
+      <%= link_to 'Instant Verification', '#' %>
+      <p>your customers can authenticate directly with their bank in real-time—no digging around for routing numbers.
+        (This process also prevents most of the common errors of mistyping bank account numbers or incorrect routing numbers.)</p>
+    </div>
+  </div>
+  <div class='col-md-6'>
+    <div class='method'>
+      <%= link_to 'Delayed Verification (Micro-deposits)', '#' %>
+      <p>With micro-deposits, we send two unique amounts to your bank account
+        so that you can verify their account by entering the amounts you see on your statement.</p>
+    </div>
+  </div>
+<div>
+
+<script src="https://cdn.plaid.com/link/stable/link-initialize.js"></script>
+<script>
+  var linkHandler = Plaid.create({
+    env: 'tartan',
+    clientName: 'Rent',
+    key: '5b140378ad78484f817e4404543cbe',
+    product: 'auth',
+    selectAccount: true,
+    onSuccess: function(public_token, metadata) {
+      // Send the public_token and account ID to your app server.
+      console.log('public_token: ' + public_token);
+      console.log('account ID: ' + metadata.account_id);
+    },
+  });
+
+  // Trigger the Link UI
+  $(function() {
+    $('#authorization').change(function() {
+      if (this.checked) {
+        document.getElementById('linkButton').onclick = function() {
+          linkHandler.open();
+        };
+      }
+    })
+  })
+
+</script>
