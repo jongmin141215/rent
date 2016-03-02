@@ -7,7 +7,7 @@
   <div class='col-md-6'>
     <div class='method' id='linkButton'>
       <%= link_to 'Instant Verification', '#' %>
-      <p>your customers can authenticate directly with their bank in real-time—no digging around for routing numbers.
+      <p>You can authenticate directly with your bank in real-time—no digging around for routing numbers.
         (This process also prevents most of the common errors of mistyping bank account numbers or incorrect routing numbers.)</p>
     </div>
   </div>
@@ -18,25 +18,51 @@
         so that you can verify their account by entering the amounts you see on your statement.</p>
     </div>
   </div>
+  <!-- <form id='payment-form' action='/add_account' method='post'>
+    <input type='hidden' value='<%= form_authenticity_token %>' name='authenticity_token'>
+    <input type='hidden' name='public_token' id='public_token'>
+    <input type='hidden' name='account_id' id='account_id'>
+    <input type='submit' value='Pay Rent'>
+  </form> -->
+  <%= form_tag '/charge' do %>
+    <article>
+      <% if flash[:error].present? %>
+        <div id="error_explanation">
+          <p><%= flash[:error] %></p>
+        </div>
+      <% end %>
+      <label class="amount">
+        <span>Amount: $5.00</span>
+      </label>
+    </article>
+
+    <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+            data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
+            data-description="A month's subscription"
+            data-amount="500"
+            data-locale="auto"></script>
+  <% end %>
 <div>
 
 <script src="https://cdn.plaid.com/link/stable/link-initialize.js"></script>
 <script>
-  var linkHandler = Plaid.create({
-    env: 'tartan',
-    clientName: 'Rent',
-    key: '5b140378ad78484f817e4404543cbe',
-    product: 'auth',
-    selectAccount: true,
-    onSuccess: function(public_token, metadata) {
-      // Send the public_token and account ID to your app server.
-      console.log('public_token: ' + public_token);
-      console.log('account ID: ' + metadata.account_id);
-    },
-  });
-
-  // Trigger the Link UI
   $(function() {
+    var linkHandler = Plaid.create({
+      env: 'tartan',
+      clientName: 'Rent',
+      key: '<%= ENV['public_key'] %>',
+      product: 'auth',
+      selectAccount: true,
+      onSuccess: function(public_token, metadata) {
+        // Send the public_token and account ID to your app server.
+        console.log('public_token: ' + public_token);
+        console.log('account ID: ' + metadata.account_id);
+        // $('#public_token').val(public_token);
+        // $('#account_id').val(metadata.account_id);
+        $.post('/add_account', { public_token: public_token, account_id: metadata.account_id })
+      }
+    });
+  // Trigger the Link UI
     $('#authorization').change(function() {
       if (this.checked) {
         document.getElementById('linkButton').onclick = function() {

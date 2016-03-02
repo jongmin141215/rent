@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   get '/dashboard' => 'dashboards#show'
   get '/pay_rent' => 'dashboards#pay'
+  post '/add_account' => 'dashboards#create'
+  post '/charge' => 'dashboards#charge'
   root 'pages#home'
 
   # Example of regular route:
