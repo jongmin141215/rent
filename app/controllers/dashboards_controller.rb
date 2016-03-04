@@ -16,24 +16,31 @@ class DashboardsController < ApplicationController
   end
 
   def charge
-      # Amount in cents
-    @amount = 500
-    p 'hi'
-    p current_user.stripe_bank_account_token
-    customer = Stripe::Customer.create(
-      :email => params[:stripeEmail],
-      :source  => current_user.stripe_bank_account_token
+    account = Stripe::Account.create(
+      {
+        :country => "US",
+        :managed => true
+      }
     )
-
-    charge = Stripe::Charge.create(
-      :customer    => customer.id,
-      :amount      => @amount,
-      :description => 'Rails Stripe customer',
-      :currency    => 'usd'
-    )
+    p account
     redirect_to dashboard_url
-    rescue Stripe::CardError => e
-      flash[:error] = e.message
-      redirect_to dashboard_url
+          # Amount in cents
+    # @amount = params[:amount]
+    #
+    # customer = Stripe::Customer.create(
+    #   :email => params[:stripeEmail],
+    #   :source  => current_user.stripe_bank_account_token
+    # )
+    #
+    # charge = Stripe::Charge.create(
+    #   :customer    => customer.id,
+    #   :amount      => @amount,
+    #   :description => 'Rails Stripe customer',
+    #   :currency    => 'usd'
+    # )
+    # redirect_to dashboard_url
+    # rescue Stripe::CardError => e
+    #   flash[:error] = e.message
+    #   redirect_to dashboard_url
   end
 end

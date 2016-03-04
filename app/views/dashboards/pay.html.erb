@@ -24,24 +24,27 @@
     <input type='hidden' name='account_id' id='account_id'>
     <input type='submit' value='Pay Rent'>
   </form> -->
-  <%= form_tag '/charge' do %>
+  <form action='/charge' method='post' id='payment_form'>
+
     <article>
       <% if flash[:error].present? %>
         <div id="error_explanation">
           <p><%= flash[:error] %></p>
         </div>
       <% end %>
-      <label class="amount">
-        <span>Amount: $5.00</span>
-      </label>
     </article>
-
-    <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-            data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
-            data-description="A month's subscription"
-            data-amount="500"
-            data-locale="auto"></script>
-  <% end %>
+    <input type='hidden' value='<%= form_authenticity_token %>' name='authenticity_token'>
+    Type:
+    <select name='recipient_type' form='payment_form'>
+      <option value='individual'>Individual</option>
+      <option value='business'>Business</option>
+    </select>
+    Landlord's Legal Name: <input type='text' placeholder="Jorgen Hahn" name='recipient_name' required/>
+    Landlord's bank account: <input type='text' placeholder="1234567890" name='recipient_bank_account' required/>
+    Landlord's account routing number: <input type='text' placeholder='123456789' name='recipient_routing_number' required/>
+    Amount: $<input type='text' pattern='\d+' name='amount' placeholder="2000"required/>
+    <input type='submit'>
+  </form>
 <div>
 
 <script src="https://cdn.plaid.com/link/stable/link-initialize.js"></script>

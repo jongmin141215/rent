@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get 'sessions/signup'
+
+  devise_for :landlords
   devise_for :users
   # get 'pages/home'
 
@@ -6,6 +9,7 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
+  get '/signup' => 'sessions#signup'
   get '/dashboard' => 'dashboards#show'
   get '/pay_rent' => 'dashboards#pay'
   post '/add_account' => 'dashboards#create'

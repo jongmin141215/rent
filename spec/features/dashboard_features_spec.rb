@@ -1,24 +1,24 @@
 require 'rails_helper'
 
 feature 'Pay rent' do
-  before do
-    sign_up('test@test.com', 'password')
-    click_link 'Pay Rent'
-  end
-  scenario "asks customer's clear and legible consent" do
-    expect(page).to have_selector 'input[type="checkbox"]'
-    expect(page).to have_content 'I authorize Rent to electronically debit my account and, if necessary, electronically credit my account to correct erroneous debits.'
-  end
+  # before do
+  #   sign_up('test@test.com', 'password')
+  #   click_link 'Pay Rent'
+  # end
+  # scenario "asks customer's clear and legible consent" do
+  #   expect(page).to have_selector 'input[type="checkbox"]'
+  #   expect(page).to have_content 'I authorize Rent to electronically debit my account and, if necessary, electronically credit my account to correct erroneous debits.'
+  # end
+  #
+  # scenario "asks two methods to verify and collect customers' bank account and routing number" do
+  #   expect(page).to have_link 'Instant Verification'
+  #   expect(page).to have_link 'Delayed Verification (Micro-deposits)'
+  # end
 
-  scenario "asks two methods to verify and collect customers' bank account and routing number" do
-    expect(page).to have_link 'Instant Verification'
-    expect(page).to have_link 'Delayed Verification (Micro-deposits)'
-  end
-
-  scenario 'cannot click a method button if the checkbox is not checked', js: true do
-    click_link 'Instant Verification'
-    expect(page).to have_link 'Instant Verification'
-  end
+  # scenario 'cannot click a method button if the checkbox is not checked', js: true do
+  #   click_link 'Instant Verification'
+  #   expect(page).to have_link 'Instant Verification'
+  # end
 end
 
 def sign_up(email, password)
