@@ -19,7 +19,7 @@ feature 'Sign up' do
   end
 
 
-  context 'tenant signup' do
+  context 'tenant' do
     scenario 'can sign up as tenant' do
       visit signup_url
       click_link 'Sign up as Tenant'
@@ -31,9 +31,14 @@ feature 'Sign up' do
       expect(page).to have_selector 'input[name="user[first_name]"]'
       expect(page).to have_selector 'input[name="user[last_name]"]'
     end
+
+    scenario 'includes data of birth' do
+      visit new_user_registration_path
+      expect(page).to have_selector 'input[name="user[date_of_birth]"]'
+    end
   end
 
-  context 'landlord signup' do
+  context 'landlord' do
     scenario 'can sign up as landlord' do
       visit signup_url
       click_link 'Sign up as Landlord'
@@ -42,13 +47,19 @@ feature 'Sign up' do
 
     scenario 'includes first and last name input fields' do
       visit new_landlord_registration_path
+
       expect(page).to have_selector 'input[name="landlord[first_name]"]'
       expect(page).to have_selector 'input[name="landlord[last_name]"]'
     end
 
     scenario 'includes business type' do
       visit new_landlord_registration_path
-      expect(page).to have_selector 'select'
+      expect(page).to have_selector 'select[name="landlord[business_type]"]'
+    end
+
+    scenario 'includes data of birth' do
+      visit new_landlord_registration_path
+      expect(page).to have_selector 'input[name="landlord[date_of_birth]"]'
     end
   end
 
