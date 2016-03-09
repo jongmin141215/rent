@@ -26,7 +26,7 @@
 
   <div class="field">
     <%= f.label :date_of_birth %><br />
-    <%= f.text_field :date_of_birth, placeholder: 'MM/DD/YYYY' %>
+    <%= f.text_field :date_of_birth, placeholder: 'MM/DD/YYYY'  %>
   </div>
 
   <div class="field">
@@ -41,7 +41,18 @@
     <%= f.label :password_confirmation %><br />
     <%= f.password_field :password_confirmation, autocomplete: "off" %>
   </div>
-
+  <% if resource == @landlord %>
+    <h4>Additional information</h4>
+    <p>If you'd like to receive more than $3000, please fill out the additional information below.</p>
+    <div class="field">
+      <%= f.label :ssn, 'Last 4 digits of your SSN' %><br />
+      <%= f.text_field :ssn %>
+    </div>
+    <div class="field">
+      <%= f.label :address %><br />
+      <%= f.text_field :address %>
+    </div>
+  <% end %>
   <div class="actions">
     <%= f.submit "Sign up" %>
   </div>

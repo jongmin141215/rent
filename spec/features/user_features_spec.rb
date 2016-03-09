@@ -26,13 +26,13 @@ feature 'Sign up' do
       expect(current_path).to eq new_user_registration_path
     end
 
-    scenario 'includes first and last name input fields' do
+    scenario 'requires first and last name input fields' do
       visit new_user_registration_path
       expect(page).to have_selector 'input[name="user[first_name]"]'
       expect(page).to have_selector 'input[name="user[last_name]"]'
     end
 
-    scenario 'includes data of birth' do
+    scenario 'requires data of birth' do
       visit new_user_registration_path
       expect(page).to have_selector 'input[name="user[date_of_birth]"]'
     end
@@ -52,15 +52,23 @@ feature 'Sign up' do
       expect(page).to have_selector 'input[name="landlord[last_name]"]'
     end
 
-    scenario 'includes business type' do
+    scenario 'requires business type' do
       visit new_landlord_registration_path
       expect(page).to have_selector 'select[name="landlord[business_type]"]'
     end
 
-    scenario 'includes data of birth' do
+    scenario 'requires data of birth' do
       visit new_landlord_registration_path
       expect(page).to have_selector 'input[name="landlord[date_of_birth]"]'
     end
+
+    scenario 'requires more info if they want more than $3000 payment' do
+      visit new_landlord_registration_path
+      expect(page).to have_content "Additional information If you'd like to receive more than $3000, please fill out the additional information"
+      expect(page).to have_selector 'input[name="landlord[ssn]"]'
+      expect(page).to have_selector 'input[name="landlord[address]"]'
+    end
+
   end
 
 

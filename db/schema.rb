@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160308053442) do
+ActiveRecord::Schema.define(version: 20160309060008) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,6 +33,8 @@ ActiveRecord::Schema.define(version: 20160308053442) do
     t.text     "last_name"
     t.text     "business_type"
     t.text     "date_of_birth"
+    t.text     "ssn"
+    t.text     "address"
   end
 
   add_index "landlords", ["email"], name: "index_landlords_on_email", unique: true, using: :btree
