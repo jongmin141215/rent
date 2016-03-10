@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   get 'sessions/signup'
 
-  devise_for :landlords
+  devise_for :landlords, controllers: { registrations: 'registrations' }
   devise_for :users
   # get 'pages/home'
 

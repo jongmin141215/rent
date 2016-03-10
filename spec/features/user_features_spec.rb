@@ -69,6 +69,21 @@ feature 'Sign up' do
       expect(page).to have_selector 'input[name="landlord[address]"]'
     end
 
+    scenario 'creates a landlord with valid info' do
+      visit new_landlord_registration_path
+      select 'individual', from: 'landlord[business_type]'
+      fill_in 'landlord[first_name]', with: 'Jongmin'
+      fill_in 'landlord[last_name]', with: 'Kim'
+      fill_in 'landlord[email]', with: 'test@test.com'
+      fill_in 'landlord[date_of_birth]', with: '05/28/1983'
+      fill_in 'landlord[password]', with: 'password'
+      fill_in 'landlord[password_confirmation]', with: 'password'
+      fill_in 'landlord[ssn]', with: '1234'
+      fill_in 'landlord[address]', with: '3674 Torrey View Ct'
+      expect{ click_button 'Sign up' }.to change(Landlord, :count).by(1)
+      expect(Landlord.last.first_name).to eq 'Jongmin'
+    end
+
   end
 
 
