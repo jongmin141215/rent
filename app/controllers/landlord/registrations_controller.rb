@@ -1,4 +1,14 @@
-class RegistrationsController < Devise::RegistrationsController
+class Landlord::RegistrationsController < Devise::RegistrationsController
+  def create
+    # Stripe.api_key = PLATFORM_SECRET_KEY
+    Stripe::Account.create(
+      {
+        :country => "US",
+        :managed => true
+      }
+    )
+    super
+  end
   private
 
   def sign_up_params

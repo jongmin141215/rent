@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
   get 'sessions/signup'
 
-  devise_for :landlords, controllers: { registrations: 'registrations' }
-  devise_for :users
+  devise_for :landlords, controllers: { registrations: 'landlord/registrations' }
+  devise_for :users, controllers: { registrations: 'tenant/registrations' }
   # get 'pages/home'
 
   # The priority is based upon order of creation: first created -> highest priority.
